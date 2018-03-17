@@ -26,13 +26,7 @@ def saveToBlob(file_name, file_path):
 
     block_blob_service = BlockBlobService(account_name=storage_account, account_key=storage_key)
 
-    #local_path = os.getcwd()
-    file_name = "foo.jpg"
-    #file_path = os.path.join(local_path, file_name)
-
-    #print(file_path)
-
-    block_blob_service.create_blob_from_file(container_imprinted_name, file_name, file_path)
+    block_blob_service.create_blob_from_path(container_imprinted_name, file_name, file_path)
 
 
 
@@ -216,5 +210,5 @@ plt.figure()
 # Generate image
 plt.imshow(img)
 imsave(output_image_path + output_image_name, img)
-saveToBlob(output_image_name, output_image_path)
+saveToBlob(output_image_name, output_image_path + output_image_name)
 plt.show()
