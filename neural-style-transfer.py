@@ -114,7 +114,7 @@ while keep_running:
         target_image_path = BytesIO(response.content)
 
         # This is the path to the style image.
-        style_reference_image_path = '.\\images\\baseball_stiches.jpg'
+        style_reference_image_path = '.\\images\\baseballs.jpg'
 
         # Create the output image path
         url = str(url)
@@ -214,4 +214,4 @@ while keep_running:
         imsave(output_image_path + output_image_name, img)
         saveToBlob(output_image_name, output_image_path + output_image_name)
 
-        queue_service.delete_message(queue_name, message.id, message.pop_receipt)
+        #queue_service.delete_message(queue_name, message.id, message.pop_receipt)
