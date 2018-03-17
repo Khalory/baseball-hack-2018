@@ -215,3 +215,5 @@ while keep_running:
         saveToBlob(output_image_name, output_image_path + output_image_name)
 
         queue_service.delete_message(queue_name, message.id, message.pop_receipt)
+        blob_image_url = 'https://imprinter.blob.core.windows.net/imprinted/' + output_image_name
+        queue_service.put_message(queue_name, blob_image_url)
