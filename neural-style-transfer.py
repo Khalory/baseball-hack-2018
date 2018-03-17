@@ -26,12 +26,6 @@ def saveToBlob(file_name, file_path):
 
     block_blob_service = BlockBlobService(account_name=storage_account, account_key=storage_key)
 
-    #local_path = os.getcwd()
-    file_name = "foo.jpg"
-    #file_path = os.path.join(local_path, file_name)
-
-    #print(file_path)
-
     block_blob_service.create_blob_from_file(container_imprinted_name, file_name, file_path)
 
 
@@ -49,9 +43,9 @@ target_image_path = BytesIO(response.content)
 style_reference_image_path = '.\\images\\baseball_stiches.jpg'
 
 # Create the output image path
-target_part = 'url'#target_image_path[target_image_path.rfind('\\')+1:target_image_path.rfind('.')]
+target_part = target_image_path[target_image_path.rfind('/')+1:target_image_path.rfind('.')]
 reference_part = style_reference_image_path[style_reference_image_path.rfind('\\')+1:style_reference_image_path.rfind('.')]
-output_image_name = 'output.png'#target_part + '_to_' + reference_part + '.png'
+output_image_name = target_part + '_to_' + reference_part + '.png'
 output_image_path = '.\\style_transfer_result\\'
 
 # Dimensions of the generated picture.
@@ -216,5 +210,5 @@ plt.figure()
 # Generate image
 plt.imshow(img)
 imsave(output_image_path + output_image_name, img)
-saveToBlob(output_image_name, output_image_path)
+saveToBlob(output_image_name, output_image_path + output_image_name)
 plt.show()
