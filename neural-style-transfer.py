@@ -28,36 +28,10 @@ queue_service.decode_function = QueueMessageFormat.binary_base64decode
 
 def saveToBlob(file_name, file_path):
     container_imprinted_name = 'imprinted'
-    block_blob_service.create_blob_from_path(container_imprinted_name, file_name, file_path)
 
     block_blob_service = BlockBlobService(account_name=storage_account, account_key=storage_key)
 
-    block_blob_service.create_blob_from_file(container_imprinted_name, file_name, file_path)
-
-
-
-
-
-url = 'http://www.baseballhackday.com/images/logos/BBHD-green.png'
-response = requests.get(url)
-
-
-# This is the path to the image you want to transform.
-target_image_path = BytesIO(response.content)
-#target_image_path = '.\\images\\BBHD_green.png'
-# This is the path to the style image.
-style_reference_image_path = '.\\images\\baseball_stiches.jpg'
-
-# Create the output image path
-target_part = target_image_path[target_image_path.rfind('/')+1:target_image_path.rfind('.')]
-reference_part = style_reference_image_path[style_reference_image_path.rfind('\\')+1:style_reference_image_path.rfind('.')]
-output_image_name = target_part + '_to_' + reference_part + '.png'
-output_image_path = '.\\style_transfer_result\\'
-
-# Dimensions of the generated picture.
-width, height = load_img(target_image_path).size
-img_height = 400
-img_width = int(width * img_height / height)
+    block_blob_service.create_blob_from_path(container_imprinted_name, file_name, file_path)
 
 def getImageUrlFromQueue():
     messages = queue_service.get_messages(queue_name)
@@ -136,18 +110,17 @@ while keep_running:
         #url = 'http://www.baseballhackday.com/images/logos/BBHD-green.png'
         response = requests.get(url)
 
-
         # This is the path to the image you want to transform.
         target_image_path = BytesIO(response.content)
 
-        #target_image_path = '.\\images\\BBHD_green.png'
         # This is the path to the style image.
         style_reference_image_path = '.\\images\\baseball_stiches.jpg'
 
         # Create the output image path
-        target_part = 'url'#target_image_path[target_image_path.rfind('\\')+1:target_image_path.rfind('.')]
+        url = str(url)
+        target_part = url[url.rfind('/')+1:url.rfind('.')]
         reference_part = style_reference_image_path[style_reference_image_path.rfind('\\')+1:style_reference_image_path.rfind('.')]
-        output_image_name = 'output.png'#target_part + '_to_' + reference_part + '.png'
+        output_image_name = target_part + '_to_' + reference_part + '.png'
         output_image_path = '.\\style_transfer_result\\'
 
         # Dimensions of the generated picture.
