@@ -35,7 +35,7 @@ def saveToBlob(file_name, file_path):
 
 def getImageUrlFromQueue():
     messages = queue_service.get_messages(queue_name)
-    if messages is not None:
+    if messages is not None and len(messages) != 0:
         return messages[0]
     return None
 
@@ -107,14 +107,13 @@ while keep_running:
     message = getImageUrlFromQueue()
     if message is not None:
         url = message.content
-        #url = 'http://www.baseballhackday.com/images/logos/BBHD-green.png'
         response = requests.get(url)
 
         # This is the path to the image you want to transform.
         target_image_path = BytesIO(response.content)
 
         # This is the path to the style image.
-        style_reference_image_path = '.\\images\\baseballs.jpg'
+        style_reference_image_path = '.\\images\\fenway_blobs.jpg'
 
         # Create the output image path
         url = str(url)
@@ -186,7 +185,7 @@ while keep_running:
         evaluator = Evaluator()
 
         result_prefix = '.\\style_transfer_result\\img'
-        iterations = 1 #20
+        iterations = 5 #20
 
         # Run scipy-based optimization (L-BFGS) over the pixels of the generated image
         # so as to minimize the neural style loss.
@@ -214,4 +213,6 @@ while keep_running:
         imsave(output_image_path + output_image_name, img)
         saveToBlob(output_image_name, output_image_path + output_image_name)
 
-        #queue_service.delete_message(queue_name, message.id, message.pop_receipt)
+        blob_image_url = 'https://imprinter.blob.core.windows.net/imprinted/' + output_image_name
+        queue_service.put_message('imprintresults', blob_image_url)
+        queue_service.delete_message(queue_name, message.id, message.pop_receipt)

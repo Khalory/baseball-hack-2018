@@ -45,4 +45,4 @@ model.fit(input, output,
           epochs=10,
           verbose=1,
           validation_data=(input, output),
-          callbacks=[history])
+          callbacks=[None])
