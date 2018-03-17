@@ -4,7 +4,8 @@ from azure.storage.blob import BlockBlobService
 key_env_var_name = 'IMPRINTER_STORAGE_KEY'
 
 storage_account = 'imprinter'
-storage_key = os.environ[key_env_var_name]
+storage_key = "qELnM/SC2Sx90GcLebvUCruxz/ibFlUpa4JP9pQSdXxURJPIeHHQfIBULswkO9XToZe4wH61OqhlLyen6+wSgA=="
+#os.environ[key_env_var_name]
 container_orig_name = 'orig'
 container_imprinted_name = 'imprinted'
 
